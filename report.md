@@ -23,7 +23,10 @@
 
 **Results:**
 - Qini ≈-0.1907
-- AUUC ≈ -0.0726  
+- AUUC ≈ -0.0726
+### Uplift Estimate Caveat
+Both the T-Learner and DR Learner produced uplift estimates clustered near zero (e.g., ~2.2e-06), indicating that the models did not capture meaningful treatment effects. This suggests that either the features lack predictive power for uplift, or the treatment effect is weak or non-existent in this dataset. These results should be interpreted with caution.
+
 
 ---
 
@@ -42,15 +45,23 @@
 ---
 
 ## 4. Sensitivity Analysis
-- **Propensity overlap:** Confirmed common support; few extreme propensities (<5%).
-- **Hyperparameter stability:** Qini remained stable across tree depths (2–4).
-- **Bias discussion:** Potential selection bias if ad exposure was not fully randomized.
+
+### Propensity Score Overlap
+The sensitivity analysis revealed that **100% of users had extreme propensity scores** (<0.05 or >0.95). This violates the **common support assumption**, which is critical for causal inference. Without overlap between treatment and control groups, models like DR Learner cannot produce valid uplift estimates. This suggests that:
+- Treatment assignment may be deterministic or highly biased
+- The dataset may lack sufficient covariate diversity
+- Observational data may not be suitable for causal modeling without rebalancing
+
+### Hyperparameter Stability
+Despite the overlap issue, Qini scores remained stable across tree depths (2–4), indicating consistent model behavior. However, due to the lack of common support, these scores may not reflect true causal effects.
+
+### Bias Discussion
+The extreme propensity distribution suggests selection bias in treatment assignment. Future work should consider reweighting, matching, or using randomized data to improve causal validity.
+
+
 
 ---
 
 ## 5. Strategic Recommendation
-- **Target:** High-frequency users in Social/Search channels and Campaign A.
-- **Suppress:** Display channel and low-frequency users to avoid wasted spend.
-- **Business Impact:** Deploying ads to top uplift deciles expected to maximize incremental conversions and ROI.
-- **Suppress:** Display channel and low-frequency users to avoid wasted spend.
-- **Business Impact:** Deploying ads to top uplift deciles expected to maximize incremental conversions and ROI.
+
+Based on the uplift analysis, ad spend should focus on segments that show measurable positive uplift, such as high-frequency users in campaign 3. Groups with little or no uplift, like low-frequency users in the Display channel, should be avoided to reduce wasted impressions. This targeted approach is expected to improve conversion efficiency while keeping costs under control.
