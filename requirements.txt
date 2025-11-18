@@ -1,0 +1,6 @@
+pandas
+numpy
+scikit-learn
+scikit-uplift
+econml
+matplotlib
