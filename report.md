@@ -29,9 +29,10 @@
 
 ## 3. Segment Analysis
 ### Top 3 Persuadable Segments
-1. **High-frequency users (top 25%)** → Strong positive uplift
-2. **Social channel customers** → Respond well to ad exposure
-3. **Campaign A participants** → High incremental conversion rate
+1. Customers in `campaign_id = 3` with frequency ≥ 12
+2. Users from `channel = 'Search'` with spend ≥ ₹500
+3. Customers with `impressions ≥ 100` and `click_through_rate ≥ 0.05`
+
 
 ### Top 3 Do-Not-Disturb Segments
 1. **Low-frequency users (bottom 25%)** → Minimal or negative uplift
